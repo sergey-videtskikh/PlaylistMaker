@@ -12,6 +12,7 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/search_button"
         style="@style/settings_activity_button"
         android:text="@string/search"
         app:cornerRadius="16dp"
@@ -21,6 +22,7 @@
         app:iconTint="@color/black" />
 
     <Button
+        android:id="@+id/media_library_button"
         style="@style/settings_activity_button"
         android:text="@string/media_library"
         app:cornerRadius="16dp"
@@ -30,6 +32,7 @@
         app:iconTint="@color/black" />
 
     <Button
+        android:id="@+id/settings_button"
         style="@style/settings_activity_button"
         android:text="@string/settings"
         app:cornerRadius="16dp"
