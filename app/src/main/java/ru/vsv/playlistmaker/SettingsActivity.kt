@@ -1,6 +1,5 @@
 package ru.vsv.playlistmaker
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,8 +12,7 @@ class SettingsActivity : AppCompatActivity() {
         val backImage = findViewById<ImageView>(R.id.back_image)
 
         backImage.setOnClickListener {
-            val mainIntent = Intent(this, MainActivity::class.java)
-            startActivity(mainIntent)
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 }
