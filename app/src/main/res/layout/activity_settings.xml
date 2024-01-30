@@ -7,98 +7,94 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="4dp">
 
         <ImageView
             android:id="@+id/back_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:padding="12dp"
             android:src="@drawable/ic_arrow_back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:lineHeight="26dp"
             android:paddingHorizontal="12dp"
             android:paddingTop="10dp"
             android:paddingBottom="12dp"
             android:text="@string/settings"
+            android:textColor="@color/black"
             android:textSize="22sp" />
     </LinearLayout>
 
-    <LinearLayout
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="24dp">
+        android:layout_marginTop="24dp">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            style="@style/settings_text"
+            android:text="@string/dark_theme" />
 
-            <TextView
-                style="@style/settings_text"
-                android:text="@string/dark_theme" />
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:checked="false"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:paddingVertical="11dp"
+            android:paddingStart="9dp"
+            android:paddingEnd="12dp" />
 
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginHorizontal="12dp"
-                android:layout_marginVertical="11dp"
-                android:checked="false"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:paddingHorizontal="6dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="11dp" />
+    </FrameLayout>
 
-        </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            style="@style/settings_text"
+            android:text="@string/share_app" />
 
-            <TextView
-                style="@style/settings_text"
-                android:text="@string/share_app" />
+        <ImageView
+            style="@style/settings_icon"
+            android:src="@drawable/ic_share" />
 
-            <ImageView
-                style="@style/settings_icon"
-                android:src="@drawable/ic_share" />
+    </FrameLayout>
 
-        </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            style="@style/settings_text"
+            android:text="@string/write_to_support" />
 
-            <TextView
-                style="@style/settings_text"
-                android:text="@string/write_to_support" />
+        <ImageView
+            style="@style/settings_icon"
+            android:src="@drawable/ic_support" />
 
-            <ImageView
-                style="@style/settings_icon"
-                android:src="@drawable/ic_support" />
+    </FrameLayout>
 
-        </FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            style="@style/settings_text"
+            android:text="@string/users_assignment" />
 
-            <TextView
-                style="@style/settings_text"
-                android:text="@string/users_assignment" />
+        <ImageView
+            style="@style/settings_icon"
+            android:src="@drawable/ic_arrow_forward" />
 
-            <ImageView
-                style="@style/settings_icon"
-                android:src="@drawable/ic_arrow_forward" />
+    </FrameLayout>
 
-        </FrameLayout>
-
-    </LinearLayout>
 
 </LinearLayout>
