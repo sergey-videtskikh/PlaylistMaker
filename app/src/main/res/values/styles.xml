@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="main_activity_button" parent="">
+    <style name="text_style_header">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:lineHeight">26dp</item>
+        <item name="android:paddingHorizontal">12dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="main_activity_button">
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/black_text</item>
@@ -12,6 +22,8 @@
         <item name="cornerRadius">16dp</item>
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textFontWeight">500</item>
     </style>
 
     <style name="settings_text">
@@ -25,6 +37,8 @@
         <item name="android:layout_marginBottom">18dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textFontWeight">400</item>
     </style>
 
     <style name="settings_icon">
