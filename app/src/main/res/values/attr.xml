@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="textColor" format="reference" />
+    <attr name="textColorMainScreen" format="reference" />
+    <attr name="textColorHeaderMainScreen" format="reference" />
+    <attr name="iconColor" format="reference" />
+    <attr name="backGroundColor" format="reference" />
+    <attr name="backGroundColorMainScreen" format="reference" />
+    <attr name="iconBackGroundColorMainScreen" format="reference" />
+    <attr name="iconColorMainScreen" format="reference" />
+</resources>

@@ -3,6 +3,14 @@
     <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="textColor">@color/YP_Black</item>
+        <item name="textColorMainScreen">@color/YP_Black</item>
+        <item name="iconColor">@color/YP_Text_Gray</item>
+        <item name="backGroundColor">@color/YP_White</item>
+        <item name="backGroundColorMainScreen">@color/YP_Blue</item>
+        <item name="iconBackGroundColorMainScreen">@color/YP_White</item>
+        <item name="iconColorMainScreen">@color/YP_Black</item>
+        <item name="textColorHeaderMainScreen">@color/YP_White</item>
     </style>
 
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />

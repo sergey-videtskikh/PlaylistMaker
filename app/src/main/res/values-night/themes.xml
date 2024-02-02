@@ -3,5 +3,13 @@
     <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="textColor">@color/YP_White</item>
+        <item name="textColorMainScreen">@color/YP_Black</item>
+        <item name="iconColor">@color/YP_White</item>
+        <item name="backGroundColor">@color/YP_Black</item>
+        <item name="backGroundColorMainScreen">@color/YP_Black</item>
+        <item name="iconBackGroundColorMainScreen">@color/YP_White</item>
+        <item name="iconColorMainScreen">@color/YP_Black</item>
+        <item name="textColorHeaderMainScreen">@color/YP_White</item>
     </style>
 </resources>
