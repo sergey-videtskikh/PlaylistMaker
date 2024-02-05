@@ -76,6 +76,7 @@
             android:text="@string/write_to_support" />
 
         <ImageView
+            android:id="@+id/support_image"
             style="@style/settings_icon"
             android:src="@drawable/ic_support" />
 
