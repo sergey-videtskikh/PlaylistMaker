@@ -1,5 +1,6 @@
 package ru.vsv.playlistmaker
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,18 @@ class SettingsActivity : AppCompatActivity() {
 
         backImage.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
+        }
+
+        val shareImage = findViewById<ImageView>(R.id.share_image)
+
+        shareImage.setOnClickListener {
+            val sendIntent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, getString(R.string.android_practicum_course_link))
+                type = "text/plain"
+            }
+
+            startActivity(sendIntent)
         }
     }
 }

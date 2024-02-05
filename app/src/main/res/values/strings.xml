@@ -8,4 +8,5 @@
     <string name="write_to_support">Написать в поддержку</string>
     <string name="users_assignment">Пользовательское соглашение</string>
     <string name="app_name_header">Playlist maker</string>
+    <string name="android_practicum_course_link">https://practicum.yandex.ru/android-developer/</string>
 </resources>
