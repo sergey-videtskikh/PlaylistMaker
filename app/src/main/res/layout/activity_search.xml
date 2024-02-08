@@ -29,6 +29,7 @@
         android:paddingVertical="8dp">
 
         <EditText
+            android:id="@+id/search_edit_text"
             android:layout_width="0dp"
             android:layout_height="36dp"
             android:layout_weight="1"
@@ -36,11 +37,12 @@
             style="@style/search_edit_text" />
 
         <ImageView
-            android:id="@+id/clearIcon"
+            android:id="@+id/ic_clear_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
+            android:visibility="gone"
             android:src="@android:drawable/ic_menu_close_clear_cancel" />
     </LinearLayout>
 
