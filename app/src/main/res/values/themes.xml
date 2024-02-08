@@ -1,14 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.PlaylistMaker" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="textColor">@color/YP_Black</item>
-        <item name="textColorMainScreen">@color/YP_Black</item>
-        <item name="iconColor">@color/YP_Text_Gray</item>
-        <item name="backGroundColor">@color/YP_White</item>
-        <item name="backGroundColorMainScreen">@color/YP_Blue</item>
-        <item name="iconBackGroundColorMainScreen">@color/YP_White</item>
-        <item name="iconColorMainScreen">@color/YP_Black</item>
-        <item name="textColorHeaderMainScreen">@color/YP_White</item>
+        <item name="YP_Black_always">@color/YP_Black</item>
+        <item name="YP_White_always">@color/YP_White</item>
+        <item name="YP_Blue_always">@color/YP_Blue</item>
+        <item name="YP_Blue_to_YP_Black">@color/YP_Blue</item>
+        <item name="YP_Black_to_YP_White">@color/YP_Black</item>
+        <item name="YP_Text_Gray_to_YP_White">@color/YP_Text_Gray</item>
+        <item name="YP_Text_Gray_to_YP_Black">@color/YP_Text_Gray</item>
+        <item name="YP_White_to_YP_Black">@color/YP_White</item>
+        <item name="YP_Light_Gray_to_YP_White">@color/YP_Light_Gray</item>
     </style>
 
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />

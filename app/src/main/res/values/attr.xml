@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="textColor" format="reference" />
-    <attr name="textColorMainScreen" format="reference" />
-    <attr name="textColorHeaderMainScreen" format="reference" />
-    <attr name="iconColor" format="reference" />
-    <attr name="backGroundColor" format="reference" />
-    <attr name="backGroundColorMainScreen" format="reference" />
-    <attr name="iconBackGroundColorMainScreen" format="reference" />
-    <attr name="iconColorMainScreen" format="reference" />
+    <attr name="YP_Black_always" format="reference" />
+    <attr name="YP_White_always" format="reference" />
+    <attr name="YP_Blue_always" format="reference" />
+    <attr name="YP_Blue_to_YP_Black" format="reference" />
+    <attr name="YP_Black_to_YP_White" format="reference" />
+    <attr name="YP_Text_Gray_to_YP_White" format="reference" />
+    <attr name="YP_Text_Gray_to_YP_Black" format="reference" />
+    <attr name="YP_White_to_YP_Black" format="reference" />
+    <attr name="YP_Light_Gray_to_YP_White" format="reference" />
 </resources>

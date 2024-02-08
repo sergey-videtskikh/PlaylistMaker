@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backGroundColor"
+    android:background="?attr/YP_White_to_YP_Black"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,19 +14,13 @@
 
         <ImageView
             android:id="@+id/back_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:padding="12dp"
+            style="@style/header_icon"
             android:src="@drawable/ic_arrow_back"
-            app:tint="?attr/textColor" />
+            app:tint="?attr/YP_Black_to_YP_White" />
 
         <TextView
             style="@style/text_style_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/settings_header" />
+            android:text="@string/header_settings" />
     </LinearLayout>
 
 
