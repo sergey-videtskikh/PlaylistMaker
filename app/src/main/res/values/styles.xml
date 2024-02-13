@@ -15,7 +15,7 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
-    <style name="main_activity_button" parent="Widget.Material3.Button.Icon">
+    <style name="main_activity_button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:backgroundTint">?attr/YP_White_always</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/YP_Black_always</item>
