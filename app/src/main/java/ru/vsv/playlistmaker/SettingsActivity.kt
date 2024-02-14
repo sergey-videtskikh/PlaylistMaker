@@ -2,8 +2,10 @@ package ru.vsv.playlistmaker
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.color.MaterialColors
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -15,6 +17,10 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        window.statusBarColor = MaterialColors.getColor(
+            findViewById<View>(android.R.id.content).rootView, R.attr.YP_White_to_YP_Black
+        )
 
         val backImage = findViewById<ImageView>(R.id.back_image)
         backImage.setOnClickListener {
@@ -45,7 +51,7 @@ class SettingsActivity : AppCompatActivity() {
         agreementImage.setOnClickListener {
             val agreementIntent = Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, getString(R.string.legal_practicum_offer_link))
-                type = MIME_TYPE_TEXT_PLAIN;
+                type = MIME_TYPE_TEXT_PLAIN
             }
             startActivity(agreementIntent)
         }

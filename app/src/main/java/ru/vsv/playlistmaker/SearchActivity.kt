@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.color.MaterialColors
 
 
 class SearchActivity : AppCompatActivity() {
@@ -25,6 +26,10 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+
+        window.statusBarColor = MaterialColors.getColor(
+            findViewById<View>(android.R.id.content).rootView, R.attr.YP_White_to_YP_Black
+        )
 
         savedValue = savedInstanceState?.getString(EDIT_TEXT_VIEW_KEY)
 
