@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.android.material.color.MaterialColors
 
 
@@ -56,7 +57,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 savedValue = s.toString()
                 Log.i(LOG_TAG, "Введеное значение: $savedValue")
-                clearButton.visibility = clearButtonVisibility(s)
+                clearButton.isVisible = isClearButtonVisible(s)
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -75,13 +76,7 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.setText(savedValue)
     }
 
-    private fun clearButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
-    }
+    private fun isClearButtonVisible(s: CharSequence?): Boolean = !s.isNullOrEmpty()
 
     private fun hideDefaultKeyboard(editText: EditText) {
         val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
