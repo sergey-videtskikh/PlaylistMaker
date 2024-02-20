@@ -15,4 +15,6 @@
     <string name="email_message_to_support">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="legal_practicum_offer_link">https://yandex.ru/legal/practicum_offer/</string>
     <string name="search_hint">Поиск</string>
+    <string name="album_cover">Обложка альбома</string>
+    <string name="button_track_forward">Кнопка переход на трэк</string>
 </resources>
