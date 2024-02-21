@@ -59,7 +59,7 @@ class SearchActivity : AppCompatActivity() {
         searchEditText.addTextChangedListener(textWatcherEditText)
 
         val searchRV = findViewById<RecyclerView>(R.id.search_rv)
-        searchRV.adapter = SearchAdapter(getMultipleMockTrackList(100))
+        searchRV.adapter = SearchAdapter(getMultipleMockTrackList(7))
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

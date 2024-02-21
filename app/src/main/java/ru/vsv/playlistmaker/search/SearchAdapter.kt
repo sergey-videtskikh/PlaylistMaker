@@ -7,6 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.vsv.playlistmaker.R
 import ru.vsv.playlistmaker.dto.Track
 
@@ -24,7 +26,7 @@ class SearchAdapter(private val dataSet: List<Track>) :
             Glide.with(view)
                 .load(track.artworkUrl100)
                 .placeholder(R.drawable.search_placeholder)
-                .centerCrop()
+                .transform(CenterCrop(), RoundedCorners(2))
                 .into(albumCoverView)
 
             trackNameView.text = track.trackName
