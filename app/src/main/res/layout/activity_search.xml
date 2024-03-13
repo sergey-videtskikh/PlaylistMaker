@@ -34,7 +34,9 @@
             style="@style/search_edit_text"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:hint="@string/search_hint" />
+            android:hint="@string/search_hint"
+            android:imeOptions="actionDone"
+            android:singleLine="true" />
 
         <ImageView
             android:id="@+id/ic_clear_image_view"

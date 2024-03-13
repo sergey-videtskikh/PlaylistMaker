@@ -10,9 +10,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.vsv.playlistmaker.R
-import ru.vsv.playlistmaker.dto.Track
+import ru.vsv.playlistmaker.dto.TrackDto
 
-class SearchAdapter(private val dataSet: List<Track>) :
+class SearchAdapter(private val dataSet: List<TrackDto>) :
     RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     class SearchViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
@@ -22,7 +22,7 @@ class SearchAdapter(private val dataSet: List<Track>) :
         private val artistNameView: TextView = view.findViewById(R.id.artist_name)
         private val trackTime: TextView = view.findViewById(R.id.track_time)
 
-        fun bind(track: Track) {
+        fun bind(track: TrackDto) {
             Glide.with(view)
                 .load(track.artworkUrl100)
                 .placeholder(R.drawable.search_placeholder)
@@ -31,7 +31,7 @@ class SearchAdapter(private val dataSet: List<Track>) :
 
             trackNameView.text = track.trackName
             artistNameView.text = track.artistName
-            trackTime.text = track.trackTime
+            trackTime.text = track.trackTimeMillis.toString()
         }
     }
 

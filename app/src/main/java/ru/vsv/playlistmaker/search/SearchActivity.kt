@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
@@ -12,8 +13,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.MaterialColors
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import ru.vsv.playlistmaker.R
-import ru.vsv.playlistmaker.dto.Track
+import ru.vsv.playlistmaker.dto.SearchTracksResponseDto
+import ru.vsv.playlistmaker.dto.TrackDto
+import ru.vsv.playlistmaker.retrofit.AppleMusicApi
 
 
 class SearchActivity : AppCompatActivity() {
@@ -21,45 +29,106 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         private const val LOG_TAG = "SearchActivity"
         private const val EDIT_TEXT_VIEW_KEY = "EDIT_TEXT_VIEW_KEY"
+        private const val BASE_URL = "https://itunes.apple.com/"
     }
 
-    private lateinit var searchEditText: EditText
+    private lateinit var queryInput: EditText
+    private lateinit var backImage: ImageView
+    private lateinit var clearButton: ImageView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var textWatcherEditText: TextWatcher
 
     private var savedValue: String? = null
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    private val appleMusicService = retrofit.create(AppleMusicApi::class.java)
+
+    private val tracks = ArrayList<TrackDto>()
+
+    private val adapter = SearchAdapter(tracks)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-
         window.statusBarColor = MaterialColors.getColor(
             findViewById<View>(android.R.id.content).rootView, R.attr.YP_White_to_YP_Black
         )
 
+        recyclerView = findViewById(R.id.search_rv)
+        recyclerView.adapter = adapter
+
         savedValue = savedInstanceState?.getString(EDIT_TEXT_VIEW_KEY)
 
-        val backImage = findViewById<ImageView>(R.id.back_image)
+        backImage = findViewById(R.id.back_image)
         backImage.setOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        searchEditText = findViewById(R.id.search_edit_text)
-        searchEditText.setText(savedValue)
+        queryInput = findViewById(R.id.search_edit_text)
+        queryInput.setText(savedValue)
 
-        val clearButton = findViewById<ImageView>(R.id.ic_clear_image_view)
+        clearButton = findViewById(R.id.ic_clear_image_view)
 
         clearButton.setOnClickListener {
             savedValue = ""
-            searchEditText.setText(savedValue)
-            searchEditText.clearFocus()
-            hideDefaultKeyboard(searchEditText)
+            queryInput.setText(savedValue)
+            queryInput.clearFocus()
+            hideDefaultKeyboard(queryInput)
         }
 
-        val textWatcherEditText = getTextWatcher(clearButton)
+        textWatcherEditText = getTextWatcher(clearButton)
+        queryInput.addTextChangedListener(textWatcherEditText)
 
-        searchEditText.addTextChangedListener(textWatcherEditText)
+        queryInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (queryInput.text.isNotBlank()) {
+                    val query = queryInput.text.toString()
 
-        val searchRV = findViewById<RecyclerView>(R.id.search_rv)
-        searchRV.adapter = SearchAdapter(getMultipleMockTrackList(7))
+                    appleMusicService.search(query)
+                        .enqueue(object : Callback<SearchTracksResponseDto> {
+                            override fun onResponse(
+                                call: Call<SearchTracksResponseDto>,
+                                response: Response<SearchTracksResponseDto>
+                            ) {
+                                if (response.code() == 200) {
+                                    tracks.clear()
+                                    if (response.body()?.results?.isNotEmpty() == true) {
+                                        tracks.addAll(response.body()?.results!!)
+                                        adapter.notifyDataSetChanged()
+                                    }
+                                    if (tracks.isEmpty()) {
+                                        //showMessage(getString(R.string.nothing_found), "")
+                                    } else {
+                                        //showMessage("", "")
+                                    }
+                                } else {
+//                                    showMessage(
+//                                        getString(R.string.something_went_wrong),
+//                                        response.code().toString()
+//                                    )
+                                }
+                            }
+
+                            override fun onFailure(
+                                call: Call<SearchTracksResponseDto>,
+                                t: Throwable
+                            ) {
+//                                showMessage(
+//                                    getString(R.string.something_went_wrong),
+//                                    t.message.toString()
+//                                )
+                            }
+                        })
+                    queryInput.setText("")
+                }
+                true
+            }
+            false
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -69,7 +138,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         savedValue = savedInstanceState.getString(EDIT_TEXT_VIEW_KEY)
-        searchEditText.setText(savedValue)
+        queryInput.setText(savedValue)
     }
 
     private fun isClearButtonVisible(s: CharSequence?): Boolean = !s.isNullOrEmpty()
@@ -84,58 +153,9 @@ class SearchActivity : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             savedValue = s.toString()
-            Log.i(LOG_TAG, "Введеное значение: $savedValue")
             clearButton.isVisible = isClearButtonVisible(s)
         }
 
         override fun afterTextChanged(s: Editable?) {}
     }
-
-    private fun getMultipleMockTrackList(n: Int): MutableList<Track> {
-        val result: MutableList<Track> = mutableListOf()
-        for (i in 1..n) {
-            result.addAll(getMockTrackList())
-        }
-        result.shuffle()
-        return result
-    }
-
-    private fun getMockTrackList() = listOf(
-        Track(
-            "Smells Like Teen Spirit",
-            "Nirvana",
-            "5:01",
-            "https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg"
-        ),
-        Track(
-            "Billie Jean",
-            "Michael Jackson",
-            "4:35",
-            "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"
-        ),
-        Track(
-            "Stayin' Alive",
-            "Bee Gees",
-            "4:10",
-            "https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"
-        ),
-        Track(
-            "Whole Lotta Love",
-            "Led Zeppelin",
-            "5:33",
-            "https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"
-        ),
-        Track(
-            "Sweet Child O'Mine",
-            "Guns N' Roses",
-            "5:03",
-            "https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"
-        ),
-        Track(
-            "No Reply",
-            "Guns N' Roses",
-            "5:03",
-            "/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg"
-        ),
-    )
 }
