@@ -11,6 +11,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.vsv.playlistmaker.R
 import ru.vsv.playlistmaker.dto.TrackDto
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class SearchAdapter(private val dataSet: List<TrackDto>) :
     RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
@@ -29,9 +31,10 @@ class SearchAdapter(private val dataSet: List<TrackDto>) :
                 .transform(CenterCrop(), RoundedCorners(2))
                 .into(albumCoverView)
 
-            trackNameView.text = track.trackName
-            artistNameView.text = track.artistName
-            trackTime.text = track.trackTimeMillis.toString()
+            trackNameView.text = track.trackName.trim()
+            artistNameView.text = track.artistName.trim()
+            trackTime.text =
+                SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
         }
     }
 
