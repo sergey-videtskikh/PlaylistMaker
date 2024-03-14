@@ -19,4 +19,5 @@
     <string name="button_track_forward">Кнопка переход на трэк</string>
     <string name="nothing_not_found">Ничего не нашлось</string>
     <string name="network_error_text">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="update_button">Обновить</string>
 </resources>

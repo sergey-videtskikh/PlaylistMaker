@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -27,7 +28,6 @@ import ru.vsv.playlistmaker.retrofit.AppleMusicApi
 class SearchActivity : AppCompatActivity() {
 
     companion object {
-        private const val TAG = "SearchActivity"
         private const val EDIT_TEXT_VIEW_KEY = "EDIT_TEXT_VIEW_KEY"
         private const val BASE_URL = "https://itunes.apple.com/"
     }
@@ -39,8 +39,10 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var textWatcherEditText: TextWatcher
     private lateinit var placeholderEmpty: LinearLayout
     private lateinit var placeholderError: LinearLayout
+    private lateinit var updateButton: Button
 
     private var savedValue: String? = null
+    private var savedQuery: String = ""
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
@@ -89,45 +91,52 @@ class SearchActivity : AppCompatActivity() {
         queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 if (queryInput.text.isNotBlank()) {
-                    val query = queryInput.text.toString()
-
-                    appleMusicService.search(query)
-                        .enqueue(object : Callback<SearchTracksResponseDto> {
-                            override fun onResponse(
-                                call: Call<SearchTracksResponseDto>,
-                                response: Response<SearchTracksResponseDto>
-                            ) {
-                                if (response.code() == 200) {
-                                    tracks.clear()
-                                    placeholderError.visibility = View.GONE
-                                    if (response.body()?.results?.isNotEmpty() == true) {
-                                        tracks.addAll(response.body()?.results!!)
-                                        adapter.notifyDataSetChanged()
-                                    }
-                                    if (tracks.isEmpty()) {
-                                        adapter.notifyDataSetChanged()
-                                        placeholderEmpty.visibility = View.VISIBLE
-                                    } else {
-                                        placeholderEmpty.visibility = View.GONE
-                                    }
-                                } else {
-                                    handleErrorPlaceholder()
-                                }
-                            }
-
-                            override fun onFailure(
-                                call: Call<SearchTracksResponseDto>,
-                                t: Throwable
-                            ) {
-                                handleErrorPlaceholder()
-                            }
-                        })
+                    savedQuery = queryInput.text.toString()
+                    handleSearchQuery(savedQuery)
                     queryInput.setText("")
                 }
                 true
             }
             false
         }
+
+        updateButton = findViewById(R.id.update_button)
+        updateButton.setOnClickListener {
+            if (savedQuery.isNotBlank()) {
+                handleSearchQuery(savedQuery)
+            }
+        }
+    }
+
+    private fun handleSearchQuery(query: String) {
+        appleMusicService.search(query)
+            .enqueue(object : Callback<SearchTracksResponseDto> {
+                override fun onResponse(
+                    call: Call<SearchTracksResponseDto>,
+                    response: Response<SearchTracksResponseDto>
+                ) {
+                    if (response.code() == 200) {
+                        tracks.clear()
+                        placeholderError.visibility = View.GONE
+                        if (response.body()?.results?.isNotEmpty() == true) {
+                            tracks.addAll(response.body()?.results!!)
+                            adapter.notifyDataSetChanged()
+                        }
+                        if (tracks.isEmpty()) {
+                            adapter.notifyDataSetChanged()
+                            placeholderEmpty.visibility = View.VISIBLE
+                        } else {
+                            placeholderEmpty.visibility = View.GONE
+                        }
+                    } else {
+                        handleErrorPlaceholder()
+                    }
+                }
+
+                override fun onFailure(call: Call<SearchTracksResponseDto>, t: Throwable) {
+                    handleErrorPlaceholder()
+                }
+            })
     }
 
     private fun handleErrorPlaceholder() {
