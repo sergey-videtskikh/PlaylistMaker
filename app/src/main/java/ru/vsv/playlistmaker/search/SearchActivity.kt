@@ -3,7 +3,6 @@ package ru.vsv.playlistmaker.search
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -112,7 +111,7 @@ class SearchActivity : AppCompatActivity() {
                                         placeholderEmpty.visibility = View.GONE
                                     }
                                 } else {
-                                    placeholderError.visibility = View.VISIBLE
+                                    handleErrorPlaceholder()
                                 }
                             }
 
@@ -120,11 +119,7 @@ class SearchActivity : AppCompatActivity() {
                                 call: Call<SearchTracksResponseDto>,
                                 t: Throwable
                             ) {
-                                Log.e(
-                                    TAG,
-                                    "Ошибка при запросе списка песен: ${t.message.toString()}"
-                                )
-                                placeholderError.visibility = View.VISIBLE
+                                handleErrorPlaceholder()
                             }
                         })
                     queryInput.setText("")
@@ -133,6 +128,12 @@ class SearchActivity : AppCompatActivity() {
             }
             false
         }
+    }
+
+    private fun handleErrorPlaceholder() {
+        tracks.clear()
+        adapter.notifyDataSetChanged()
+        placeholderError.visibility = View.VISIBLE
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
