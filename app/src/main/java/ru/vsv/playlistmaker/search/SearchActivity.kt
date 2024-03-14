@@ -9,6 +9,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,7 @@ import ru.vsv.playlistmaker.retrofit.AppleMusicApi
 class SearchActivity : AppCompatActivity() {
 
     companion object {
-        private const val LOG_TAG = "SearchActivity"
+        private const val TAG = "SearchActivity"
         private const val EDIT_TEXT_VIEW_KEY = "EDIT_TEXT_VIEW_KEY"
         private const val BASE_URL = "https://itunes.apple.com/"
     }
@@ -37,6 +38,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var clearButton: ImageView
     private lateinit var recyclerView: RecyclerView
     private lateinit var textWatcherEditText: TextWatcher
+    private lateinit var placeholderEmpty: LinearLayout
+    private lateinit var placeholderError: LinearLayout
 
     private var savedValue: String? = null
 
@@ -46,9 +49,7 @@ class SearchActivity : AppCompatActivity() {
         .build()
 
     private val appleMusicService = retrofit.create(AppleMusicApi::class.java)
-
     private val tracks = ArrayList<TrackDto>()
-
     private val adapter = SearchAdapter(tracks)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +84,9 @@ class SearchActivity : AppCompatActivity() {
         textWatcherEditText = getTextWatcher(clearButton)
         queryInput.addTextChangedListener(textWatcherEditText)
 
+        placeholderEmpty = findViewById(R.id.placeholder_empty)
+        placeholderError = findViewById(R.id.placeholder_error)
+
         queryInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 if (queryInput.text.isNotBlank()) {
@@ -96,20 +100,19 @@ class SearchActivity : AppCompatActivity() {
                             ) {
                                 if (response.code() == 200) {
                                     tracks.clear()
+                                    placeholderError.visibility = View.GONE
                                     if (response.body()?.results?.isNotEmpty() == true) {
                                         tracks.addAll(response.body()?.results!!)
                                         adapter.notifyDataSetChanged()
                                     }
                                     if (tracks.isEmpty()) {
-                                        //showMessage(getString(R.string.nothing_found), "")
+                                        adapter.notifyDataSetChanged()
+                                        placeholderEmpty.visibility = View.VISIBLE
                                     } else {
-                                        //showMessage("", "")
+                                        placeholderEmpty.visibility = View.GONE
                                     }
                                 } else {
-//                                    showMessage(
-//                                        getString(R.string.something_went_wrong),
-//                                        response.code().toString()
-//                                    )
+                                    placeholderError.visibility = View.VISIBLE
                                 }
                             }
 
@@ -117,10 +120,11 @@ class SearchActivity : AppCompatActivity() {
                                 call: Call<SearchTracksResponseDto>,
                                 t: Throwable
                             ) {
-//                                showMessage(
-//                                    getString(R.string.something_went_wrong),
-//                                    t.message.toString()
-//                                )
+                                Log.e(
+                                    TAG,
+                                    "Ошибка при запросе списка песен: ${t.message.toString()}"
+                                )
+                                placeholderError.visibility = View.VISIBLE
                             }
                         })
                     queryInput.setText("")
