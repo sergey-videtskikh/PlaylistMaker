@@ -80,6 +80,8 @@ class SearchActivity : AppCompatActivity() {
             queryInput.setText(savedValue)
             queryInput.clearFocus()
             hideDefaultKeyboard(queryInput)
+            tracks.clear()
+            adapter.notifyDataSetChanged()
         }
 
         textWatcherEditText = getTextWatcher(clearButton)
