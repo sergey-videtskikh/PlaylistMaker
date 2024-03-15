@@ -144,6 +144,7 @@ class SearchActivity : AppCompatActivity() {
     private fun handleErrorPlaceholder() {
         tracks.clear()
         adapter.notifyDataSetChanged()
+        placeholderEmpty.visibility = View.GONE
         placeholderError.visibility = View.VISIBLE
     }
 
