@@ -19,6 +19,8 @@ class SearchAdapter(private val dataSet: List<TrackDto>) :
 
     class SearchViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
 
+        private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
+
         private val albumCoverView: ImageView = view.findViewById(R.id.album_cover)
         private val trackNameView: TextView = view.findViewById(R.id.track_name)
         private val artistNameView: TextView = view.findViewById(R.id.artist_name)
@@ -33,8 +35,7 @@ class SearchAdapter(private val dataSet: List<TrackDto>) :
 
             trackNameView.text = track.trackName.trim()
             artistNameView.text = track.artistName.trim()
-            trackTime.text =
-                SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+            trackTime.text = dateFormat.format(track.trackTimeMillis)
         }
     }
 

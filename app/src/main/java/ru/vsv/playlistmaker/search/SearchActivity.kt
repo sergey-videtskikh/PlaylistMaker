@@ -41,7 +41,6 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderError: LinearLayout
     private lateinit var updateButton: Button
 
-    private var savedValue: String? = null
     private var savedQuery: String = ""
 
     private val retrofit = Retrofit.Builder()
@@ -50,7 +49,7 @@ class SearchActivity : AppCompatActivity() {
         .build()
 
     private val appleMusicService = retrofit.create(AppleMusicApi::class.java)
-    private val tracks = ArrayList<TrackDto>()
+    private val tracks = mutableListOf<TrackDto>()
     private val adapter = SearchAdapter(tracks)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +62,7 @@ class SearchActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.search_rv)
         recyclerView.adapter = adapter
 
-        savedValue = savedInstanceState?.getString(EDIT_TEXT_VIEW_KEY)
+        savedQuery = savedInstanceState?.getString(EDIT_TEXT_VIEW_KEY) ?: ""
 
         backImage = findViewById(R.id.back_image)
         backImage.setOnClickListener {
@@ -71,13 +70,13 @@ class SearchActivity : AppCompatActivity() {
         }
 
         queryInput = findViewById(R.id.search_edit_text)
-        queryInput.setText(savedValue)
+        queryInput.setText(savedQuery)
 
         clearButton = findViewById(R.id.ic_clear_image_view)
 
         clearButton.setOnClickListener {
-            savedValue = ""
-            queryInput.setText(savedValue)
+            savedQuery = ""
+            queryInput.setText(savedQuery)
             queryInput.clearFocus()
             hideDefaultKeyboard(queryInput)
             tracks.clear()
@@ -95,7 +94,6 @@ class SearchActivity : AppCompatActivity() {
                 if (queryInput.text.isNotBlank()) {
                     savedQuery = queryInput.text.toString()
                     handleSearchQuery(savedQuery)
-                    queryInput.setText("")
                 }
                 true
             }
@@ -117,19 +115,19 @@ class SearchActivity : AppCompatActivity() {
                     call: Call<SearchTracksResponseDto>,
                     response: Response<SearchTracksResponseDto>
                 ) {
-                    if (response.code() == 200) {
-                        tracks.clear()
+                    if (response.isSuccessful) {
                         placeholderError.visibility = View.GONE
-                        if (response.body()?.results?.isNotEmpty() == true) {
-                            tracks.addAll(response.body()?.results!!)
-                            adapter.notifyDataSetChanged()
-                        }
-                        if (tracks.isEmpty()) {
-                            adapter.notifyDataSetChanged()
+                        tracks.clear()
+                        val results = response.body()?.results ?: emptyList()
+
+                        if (results.isEmpty()) {
                             placeholderEmpty.visibility = View.VISIBLE
                         } else {
+                            tracks.addAll(results)
                             placeholderEmpty.visibility = View.GONE
                         }
+
+                        adapter.notifyDataSetChanged()
                     } else {
                         handleErrorPlaceholder()
                     }
@@ -149,13 +147,13 @@ class SearchActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putString(EDIT_TEXT_VIEW_KEY, savedValue)
+        outState.putString(EDIT_TEXT_VIEW_KEY, savedQuery)
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        savedValue = savedInstanceState.getString(EDIT_TEXT_VIEW_KEY)
-        queryInput.setText(savedValue)
+        savedQuery = savedInstanceState.getString(EDIT_TEXT_VIEW_KEY) ?: ""
+        queryInput.setText(savedQuery)
     }
 
     private fun isClearButtonVisible(s: CharSequence?): Boolean = !s.isNullOrEmpty()
@@ -169,7 +167,7 @@ class SearchActivity : AppCompatActivity() {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            savedValue = s.toString()
+            savedQuery = s.toString()
             clearButton.isVisible = isClearButtonVisible(s)
         }
 

@@ -16,8 +16,8 @@
         <ImageView
             android:id="@+id/back_image"
             style="@style/header_icon"
-            android:src="@drawable/ic_arrow_back"
-            android:importantForAccessibility="no" />
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_arrow_back" />
 
         <TextView
             style="@style/text_style_header"
@@ -38,8 +38,9 @@
             android:layout_height="36dp"
             android:hint="@string/search_hint"
             android:imeOptions="actionDone"
-            android:singleLine="true"
-            android:importantForAutofill="no" />
+            android:importantForAutofill="no"
+            android:maxLength="100"
+            android:singleLine="true" />
 
         <ImageView
             android:id="@+id/ic_clear_image_view"
@@ -48,10 +49,10 @@
             android:layout_gravity="center|end"
             android:layout_marginStart="12dp"
             android:layout_marginEnd="10dp"
+            android:importantForAccessibility="no"
             android:src="@drawable/ic_clear_button"
             android:visibility="gone"
-            app:tint="?attr/YP_Text_Gray_to_YP_Black"
-            android:importantForAccessibility="no" />
+            app:tint="?attr/YP_Text_Gray_to_YP_Black" />
     </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
